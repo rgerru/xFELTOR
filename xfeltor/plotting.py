@@ -46,7 +46,7 @@ def _normalise_time_coord(time_values):
     tmax = time_values.max()
     if tmax < 1.0e-2 or tmax > 1.0e6:
         scale_pow = int(np.floor(np.log10(tmax)))
-        scale_factor = 10 ** scale_pow
+        scale_factor = 10**scale_pow
         time_values = time_values / scale_factor
         suffix = f"e{scale_pow}"
     else:
@@ -107,7 +107,7 @@ def animate_pcolormesh(
     extend=None,
     controls="both",
     LCFS=None,
-    cmap='bwr',
+    cmap="bwr",
     **kwargs,
 ):
     """
@@ -178,7 +178,7 @@ def animate_pcolormesh(
         Not easy to define it as rho=1. Future improvement, but not easy with animation.
         Styling and more lines can be defined in line 292.
     cmap : string, optional
-        Allows to define the cmap of the animation. Default set to 'bwr'. 
+        Allows to define the cmap of the animation. Default set to 'bwr'.
     kwargs : dict, optional
         Additional keyword arguments are passed on to the animation function
         animatplot.blocks.Pcolormesh
@@ -263,7 +263,13 @@ def animate_pcolormesh(
             UserWarning,
         )
         pcolormesh_block = amp.blocks.Pcolormesh(
-            x_values, y_values, image_data, shading="auto", ax=ax, **kwargs, cmap=cmap,
+            x_values,
+            y_values,
+            image_data,
+            shading="auto",
+            ax=ax,
+            **kwargs,
+            cmap=cmap,
         )
 
     if animate:
@@ -287,14 +293,16 @@ def animate_pcolormesh(
     ax.set_ylabel(y_label)
 
     if LCFS is not None:
-        plt.contour(LCFS.x, LCFS.y, LCFS, levels=0, colors='black', linestyles='dashed') #Edit styling LCFS
+        plt.contour(
+            LCFS.x, LCFS.y, LCFS, levels=0, colors="black", linestyles="dashed"
+        )  # Edit styling LCFS
     if animate:
         _add_controls(anim, controls, t_label)
 
         if save_as is not None:
             if save_as is True:
                 save_as = f"{variable}_over_{animate_over}"
-            anim.save(save_as + ".gif", writer=PillowWriter(fps=fps), dpi=500) 
+            anim.save(save_as + ".gif", writer=PillowWriter(fps=fps), dpi=500)
         return anim
     return pcolormesh_block
 
